@@ -1,7 +1,7 @@
 import json
 import sys
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
@@ -22,23 +22,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
-
-
-class JsonEncodedDict(db.TypeDecorator):
-    """Enables JSON storage by encoding and decoding on the fly."""
-    impl = db.Text
-
-    def process_bind_param(self, value, dialect):
-        if value is None:
-            return '{}'
-        else:
-            return json.dumps(value)
-
-    def process_result_value(self, value, dialect):
-        if value is None:
-            return {}
-        else:
-            return json.loads(value)
 
 
 class MolecularInformation(db.Model):
@@ -98,14 +81,7 @@ class MolecularEnergies(db.Model):
     @property
     def serialize(self):
         """Return object data in easily serializable format"""
-        # if self.homo:
-        #     homo = self.homo
-        # else:
-        #     homo = ''
-        # if self.lumo:
-        #     lumo = self.lumo
-        # else:
-        #     lumo = ''
+
         return {
             "elec_state": self.elec_state,
             "solv_state": self.solv_state,
@@ -142,9 +118,10 @@ def search_results(formResponse):
                                                  MolecularInformation.inchi_key).all()
     else:
         result = MolecularInformation.query.join(MolecularEnergies, MolecularEnergies.inchi_key ==
-                                                     MolecularInformation.inchi_key).filter(
-                get_field(searchField).between(lowerRange, upperRange)).all()
+                                                 MolecularInformation.inchi_key).filter(
+            get_field(searchField).between(lowerRange, upperRange)).all()
     return render_template('results.html', result=[i.serialize for i in result])
+
 
 def get_field(searchField):
     if searchField == "Homo":
@@ -154,10 +131,11 @@ def get_field(searchField):
     elif searchField == "Redox Potential":
         return MolecularInformation.red_pot
 
+
 @app.route('/detailed/<molecule>')
 def detailed_result(molecule):
-    return render_template('details.html', title=molecule, result=json.loads(request.args['object'].replace('\'',"\"")
-                                                                             .replace('None','\"\"')))
+    return render_template('details.html', title=molecule, result=json.loads(request.args['object'].replace('\'', "\"")
+                                                                             .replace('None', '\"\"')))
 
 
 if __name__ == "__main__":
