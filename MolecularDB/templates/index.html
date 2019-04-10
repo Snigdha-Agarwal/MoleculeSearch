@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h2>Molecular Database</h2>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+  <!--<form action="" method="post" >-->
+        <!--{{ form.hidden_tag() }}-->
+        <!--<p>-->
+            <!--{{ form.searchField.label }}<br>-->
+            <!--{{ form.searchField }}-->
+        <!--</p>-->
+        <!--<p>-->
+            <!--{{ form.lowerRange }} to {{ form.upperRange }}-->
+        <!--</p>-->
+        <!--<p>{{ form.submit() }}</p>-->
+  <!--</form>-->
+{% endblock %}

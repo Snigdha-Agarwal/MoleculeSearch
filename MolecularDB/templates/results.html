@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block app_content %}
+
+<head>
+    <link rel="stylesheet" type = "text/css"
+          href="{{ url_for('static', filename='mainResult.css') }}" >
+</head>
+<body>
+
+<title>Search Results - Molecular Database</title>
+<table class="tg">
+    <tr>
+        <th class="tg-1wig"><span style="font-weight:bold">Structure</th>
+        <th class="tg-1wig"><span style="font-weight:bold">smile</th>
+        <th class="tg-1wig"><span style="font-weight:bold">formula</span></th>
+        <th class="tg-1wig"><span style="font-weight:bold">molecular-weight</th>
+        <th class="tg-1wig"><span style="font-weight:bold">ion-pot</th>
+        <th class="tg-1wig"><span style="font-weight:bold">red-pot</th>
+        <th class="tg-1wig"><span style="font-weight:bold">ver-en</th>
+        <th class="tg-1wig"><span style="font-weight:bold">0-0-S1</th>
+        <th class="tg-1wig"><span style="font-weight:bold">0-0-T1</th>
+    </tr>
+    <tbody>
+    {% for r in result %}
+    <tr>
+        <td><a class="button" href="{{ url_for('detailed_result', molecule=r['inchi_key'], object=r) }}">
+            {{r['smile']}}</a></td>
+        <td>{{r['smile']}}</td>
+        <td>{{r['formula']}}</td>
+        <td>{{r['molecular_weight']}}</td>
+        <td>{{r['ion_pot']}}</td>
+        <td>{{r['red_pot']}}</td>
+        <td>{{r['ver_en']}}</td>
+        <td>{{r['zero_S1']}}</td>
+        <td>{{r['zero_T1']}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</body>
+{% endblock %}
+
+
+</html>

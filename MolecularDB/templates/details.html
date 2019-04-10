@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+
+{% block app_content %}
+<head>
+    <link rel="stylesheet" type = "text/css"
+          href="{{ url_for('static', filename='mainResult.css') }}" >
+</head>
+<body>
+<h3>Molecule {{result['formula']}}</h3>
+<table class="tg">
+    <tr>
+        <th class="tg-1wig"><span style="font-weight:bold">Elec state</th>
+        <th class="tg-1wig"><span style="font-weight:bold">Solv state</th>
+        <th class="tg-1wig"><span style="font-weight:bold">Total Elec Energy</span></th>
+        <th class="tg-1wig"><span style="font-weight:bold">G Energy</th>
+        <th class="tg-1wig"><span style="font-weight:bold">H Energy</th>
+        <th class="tg-1wig"><span style="font-weight:bold">S Energy</th>
+        <th class="tg-1wig"><span style="font-weight:bold">ZPVE</th>
+        <th class="tg-1wig"><span style="font-weight:bold">Homo</th>
+        <th class="tg-1wig"><span style="font-weight:bold">Lumo</th>
+    </tr>
+    <tbody>
+    {% for r in result['energies'] %}
+    <tr>
+        <td>{{r['elec_state']}}</td>
+        <td>{{r['solv_state']}}</td>
+        <td>{{r['total_elec_energy']}}</td>
+        <td>{{r['g_energy']}}</td>
+        <td>{{r['h_energy']}}</td>
+        <td>{{r['s_energy']}}</td>
+        <td>{{r['zpve']}}</td>
+        <td>{{r['homo']}}</td>
+        <td>{{r['lumo']}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+{% endblock %}
+
+</html>
