@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 
 from flask import Flask, render_template, request
@@ -13,7 +14,7 @@ app.config.from_object(Config)
 bootstrap = Bootstrap(app)
 POSTGRES = {
     'user': '',
-    'pw': '',
+    'pw': os.environ["POSTGRES_PW"],
     'db': 'molecularDB',
     'host': 'localhost',
     'port': '5432',
