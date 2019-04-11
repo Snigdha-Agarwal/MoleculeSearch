@@ -14,11 +14,13 @@ app = Flask(__name__)
 app.config.from_object(Config)
 bootstrap = Bootstrap(app)
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
 
 POSTGRES = {
-    'user': os.environ.get("POSTGRES_USER") or '',
-    'pw': os.environ.get("POSTGRES_PW") or '',
-    'db': 'molecularDB',
+    'user': os.getenv("POSTGRES_USER") or '',
+    'pw': os.getenv("POSTGRES_PW") or '',
+    'db': os.getenv("POSTGRES_DB"),
     'host': '127.0.0.1',
     'port': '5432',
 }
@@ -144,6 +146,4 @@ def detailed_result(molecule):
 
 if __name__ == "__main__":
     # jinja2.filters.FILTERS['printStruct'] = printStruct
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    load_dotenv(os.path.join(basedir, '.env'))
     app.run()
