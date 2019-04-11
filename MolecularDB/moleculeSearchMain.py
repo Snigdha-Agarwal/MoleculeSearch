@@ -2,6 +2,7 @@ import json
 import os
 import sys
 
+from dotenv import load_dotenv
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
@@ -12,11 +13,13 @@ from flask_bootstrap import Bootstrap
 app = Flask(__name__)
 app.config.from_object(Config)
 bootstrap = Bootstrap(app)
+
+
 POSTGRES = {
-    'user': '',
-    'pw': os.environ["POSTGRES_PW"],
+    'user': os.environ.get("POSTGRES_USER") or '',
+    'pw': os.environ.get("POSTGRES_PW") or '',
     'db': 'molecularDB',
-    'host': 'localhost',
+    'host': '127.0.0.1',
     'port': '5432',
 }
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
@@ -141,4 +144,6 @@ def detailed_result(molecule):
 
 if __name__ == "__main__":
     # jinja2.filters.FILTERS['printStruct'] = printStruct
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    load_dotenv(os.path.join(basedir, '.env'))
     app.run()
