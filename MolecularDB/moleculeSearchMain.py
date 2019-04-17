@@ -18,9 +18,15 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
 POSTGRES = {
+<<<<<<< Updated upstream
     'user': os.getenv("POSTGRES_USER") or '',
     'pw': os.getenv("POSTGRES_PW") or '',
     'db': os.getenv("POSTGRES_DB"),
+=======
+    'user': os.environ.get("POSTGRES_USER") or '',
+    'pw': os.environ.get("POSTGRES_PW") or '',
+    'db': os.environ.get("POSTGRES_DB"),
+>>>>>>> Stashed changes
     'host': '127.0.0.1',
     'port': '5432',
 }
